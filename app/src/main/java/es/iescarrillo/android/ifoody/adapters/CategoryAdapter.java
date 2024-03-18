@@ -10,57 +10,60 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 import es.iescarrillo.android.ifoody.R;
 import es.iescarrillo.android.ifoody.models.Category;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
-    private List<Category> categoryList;
-    private Context context;
 
-    public CategoryAdapter(Context context, List<Category> categories) {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
+
+    private Context context;
+    private List<Category> categories;
+
+    public CategoryAdapter(Context context, List<Category> categories){
         this.context = context;
-        this.categoryList = categories;
+        this.categories = categories;
     }
 
+    // Médoto en el que vamos a indicar la vista (xml) que vamos a inflar
     @NonNull
     @Override
-    public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category, parent, false);
-
-
+    public CategoryAdapter.CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Indicamos la vista que queremos inflar
+        View view = LayoutInflater.from(context).inflate(R.layout.item_category, parent, false);
+        // Transformamos o casteamos esa vista en un ViewHolder (contenedor personalizado)
         return new CategoryViewHolder(view);
     }
 
+    // Método en el vamos a modificar los componentes (imagenView & textView) de la imagen que hemos inflado anteriormente
     @Override
-    public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
-        Category category = categoryList.get(position);
-        holder.bind(category);
+    public void onBindViewHolder(@NonNull CategoryAdapter.CategoryViewHolder holder, int position) {
+        // Obtenemos el objeto según la posición en la lista
+        Category category = categories.get(position);
+
+        // Modificamos los componentes
+        holder.tvTitle.setText(category.getTitle());
+        holder.imgCategory.setImageResource(category.getImage());
     }
 
+    // Número de elementos de la lista de objetos
     @Override
     public int getItemCount() {
-        return categoryList.size();
+        return categories.size();
     }
 
-    public class CategoryViewHolder extends RecyclerView.ViewHolder {
+    // Clase interna donde vamos a definir los componentes de la vista
+    public class CategoryViewHolder extends RecyclerView.ViewHolder{
+        // Componentes de la vista
         private ImageView imgCategory;
-        private TextView title;
+        private TextView tvTitle;
 
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgCategory = itemView.findViewById(R.id.img_category);
-            title = itemView.findViewById(R.id.text_category);
-        }
-
-        public void bind(Category category) {
-            int resourceId = context.getResources().getIdentifier(category.getImage(), "drawable", context.getPackageName());
-
-            Picasso.get().load(resourceId).into(imgCategory);
-            title.setText(category.getTitle());
+            // Vamos a inicializar los componentes
+            imgCategory = itemView.findViewById(R.id.imgCategory);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
         }
     }
 }

@@ -36,4 +36,6 @@
             android:layout_gravity="bottom"/>
 
     </com.google.android.material.navigation.NavigationView>
+
+
 </androidx.drawerlayout.widget.DrawerLayout>

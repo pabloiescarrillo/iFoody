@@ -4,25 +4,29 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.graphics.Color;
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
+import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 import es.iescarrillo.android.ifoody.R;
-import es.iescarrillo.android.ifoody.adapters.CategoryAdapter;
-import es.iescarrillo.android.ifoody.models.Category;
+import es.iescarrillo.android.ifoody.fragments.HomeFragment;
+import es.iescarrillo.android.ifoody.fragments.MyOrdersFragment;
+import es.iescarrillo.android.ifoody.fragments.MyProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
-
-    private CategoryAdapter adapter;
-    private List<Category> categories;
-    private RecyclerView rvList;
+    private NavigationView menu;
+    private BottomNavigationView bottomMenu;
+    private Fragment fragment;
+    private int selectedColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,24 +47,46 @@ public class MainActivity extends AppCompatActivity {
         // Evento para sincronizar el estado del botón hamburguesa con el estado del menú lateral
         actionBarDrawerToggle.syncState();
 
-        rvList = findViewById(R.id.rvList);
-        categories = new ArrayList<>();
+        fragment = new HomeFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_fragment, fragment).commit();
 
-        for(int i=0; i<15; i++){
-            Category category =  new Category();
-            category.setTitle("Category " + i);
-            category.setImage("@drawable/logo_rounded_app");
-            categories.add(category);
-        }
+        menu.setNavigationItemSelectedListener(item -> {
 
-        adapter = new CategoryAdapter(getApplicationContext(), categories);
-        rvList.setAdapter(adapter);
+            if(item.getItemId() == R.id.my_orders){ //
+                fragment = new MyOrdersFragment();
+            } else if (item.getItemId() == R.id.my_profile) {
+                fragment = new MyProfileFragment();
+            }
+
+            // Método para cargar el fragment
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_fragment, fragment).commit();
+
+            // Cargamos el fragment y cerramos el drawer
+            drawerLayout.closeDrawers();
+
+            return true;
+        });
+
+        selectedColor = R.color.primary_color;
+
+        bottomMenu.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.item_tab_1){
+                fragment = new HomeFragment();
+                item.getIcon().setTint(selectedColor);
+            }
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_fragment, fragment).commit();
+
+            return true;
+        });
     }
 
 
     private void loadComponents(){
         drawerLayout = findViewById(R.id.drawer_layout);
         toolbar = findViewById(R.id.toolbar);
+        menu = findViewById(R.id.nvMenu);
+        bottomMenu = findViewById(R.id.bottomMenu);
     }
 
 }

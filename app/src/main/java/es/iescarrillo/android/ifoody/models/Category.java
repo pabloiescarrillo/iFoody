@@ -3,10 +3,19 @@ package es.iescarrillo.android.ifoody.models;
 import java.io.Serializable;
 
 public class Category implements Serializable {
-    private String title;
-    private String image;
 
-    public Category() {
+    // En title vamos a guardar el nombre de la category
+    private String title;
+    // En image vamos a guardar el nombre de la imagen
+    private int image;
+
+    public Category(){
+        super();
+    }
+
+    public Category(String title, int image){
+        this.title = title;
+        this.image = image;
     }
 
     public String getTitle() {
@@ -17,11 +26,11 @@ public class Category implements Serializable {
         this.title = title;
     }
 
-    public String getImage() {
+    public int getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(int image) {
         this.image = image;
     }
 }
