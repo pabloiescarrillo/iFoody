@@ -48,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
         // Evento para sincronizar el estado del botón hamburguesa con el estado del menú lateral
         actionBarDrawerToggle.syncState();
 
+        // Inicializo la variable fragment con el fragment que quiero cargar por defecto
         fragment = new HomeFragment();
+        // Cargar el fragment en la Activity
         getSupportFragmentManager().beginTransaction().replace(R.id.content_fragment, fragment).commit();
 
         // Función para detectar el punto de menú seleccionado, se almacenará en la variable
