@@ -9,4 +9,8 @@
         android:title="My profile"
         android:icon="@drawable/ic_person"/>
 
+    <item android:id="@+id/prueba"
+        android:title="Prueba"
+        android:icon="@drawable/ic_person"/>
+
 </menu>

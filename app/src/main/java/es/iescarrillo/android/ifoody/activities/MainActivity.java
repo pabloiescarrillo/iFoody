@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Método para cargar los elementos del xml
         loadComponents();
 
         // Método para indicar que el toolbar hará la función de barra de acciones
@@ -50,12 +51,16 @@ public class MainActivity extends AppCompatActivity {
         fragment = new HomeFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.content_fragment, fragment).commit();
 
+        // Función para detectar el punto de menú seleccionado, se almacenará en la variable
+        // de la función lambda
         menu.setNavigationItemSelectedListener(item -> {
 
             if(item.getItemId() == R.id.my_orders){ //
                 fragment = new MyOrdersFragment();
             } else if (item.getItemId() == R.id.my_profile) {
                 fragment = new MyProfileFragment();
+            } else if (item.getItemId() == R.id.prueba){
+                Log.i("Menu", "Has selecionado prueba");
             }
 
             // Método para cargar el fragment
